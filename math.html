@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Games - Kids Learning World</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Font Awesome Icons as Data URLs (to avoid CDN blocking) */
+        @font-face {
+            font-family: 'Font Awesome 6 Free';
+            font-style: normal;
+            font-weight: 400;
+            src: url("data:font/woff2;charset=utf-8;base64,d09GMgABAAAAAA7gABIAAAAAGGwAA...") format('woff2');
+        }
+        
+        .fa, .fas, .far, .fal, .fab {
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+        
+        .fa-home:before { content: "\f015"; }
+        .fa-font:before { content: "\f031"; }
+        .fa-calculator:before { content: "\f1ec"; }
+        .fa-palette:before { content: "\f53f"; }
+        .fa-book:before { content: "\f02d"; }
+        .fa-child:before { content: "\f1ae"; }
+        .fa-gamepad:before { content: "\f11b"; }
+        .fa-redo:before { content: "\f01e"; }
+        .fa-lightbulb:before { content: "\f0eb"; }
+        .fa-sort-numeric-up:before { content: "\f162"; }
+        .fa-plus:before { content: "\f067"; }
+        .fa-minus:before { content: "\f068"; }
+        .fa-shapes:before { content: "\f61f"; }
+        .fa-apple-alt:before { content: "\f5d1"; }
+        .fa-plus-circle:before { content: "\f055"; }
+        .fa-minus-circle:before { content: "\f056"; }
+        .fa-random:before { content: "\f074"; }
+        .fa-redo-alt:before { content: "\f2f9"; }
+        .fa-th:before { content: "\f00a"; }
+
+        /* Math Page Specific Styles */
+        .math-page {
+            padding: 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .page-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Game Selection */
+        .game-selection {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .game-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+
+        .game-tab {
+            padding: 15px 25px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .game-tab:hover {
+            background: #e0e0e0;
+            transform: translateY(-3px);
+        }
+
+        .game-tab.active {
+            background: #4CAF50;
+            color: white;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .game-content {
+            display: none;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .game-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Counting Game */
+        #counting-display {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+            min-height: 100px;
+        }
+
+        .counting-item {
+            font-size: 3rem;
+            animation: float 3s ease-in-out infinite;
+            transform-origin: bottom;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .counting-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .counting-option {
+            width: 70px;
+            height: 70px;
+            font-size: 2rem;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .counting-option:hover {
+            background: #1976D2;
+            transform: scale(1.1);
+        }
+
+        /* Addition Game */
+        .addition-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .math-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            min-height: 100px;
+            align-items: center;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 15px;
+            min-width: 200px;
+        }
+
+        .math-ball {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF5252, #FF4081);
+            animation: bounce 1s ease infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .math-symbol {
+            font-size: 3rem;
+            color: #FF9800;
+            font-weight: bold;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .addition-input {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        #addition-answer {
+            width: 100px;
+            height: 70px;
+            font-size: 2.5rem;
+            text-align: center;
+            border: 3px solid #2196F3;
+            border-radius: 10px;
+        }
+
+        /* Subtraction Game */
+        .subtraction-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .total-group, .remove-group, .remaining-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            min-width: 200px;
+            min-height: 100px;
+            align-items: center;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .total-group {
+            background: #E3F2FD;
+        }
+
+        .remove-group {
+            background: #FFEBEE;
+        }
+
+        .remaining-group {
+            background: #E8F5E9;
+        }
+
+        .math-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            transition: all 0.5s ease;
+        }
+
+        .math-item.removed {
+            opacity: 0.3;
+            transform: scale(0.8);
+            background: #f44336;
+        }
+
+        .subtraction-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .subtraction-option {
+            padding: 15px 30px;
+            font-size: 1.8rem;
+            background: #9C27B0;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subtraction-option:hover {
+            background: #7B1FA2;
+            transform: scale(1.05);
+        }
+
+        /* Shapes Game */
+        .shape-display {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            min-height: 200px;
+            align-items: center;
+        }
+
+        .shape {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            transition: all 0.5s ease;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF5252, #FF4081);
+        }
+
+        .square {
+            background: linear-gradient(135deg, #448AFF, #2979FF);
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 75px solid transparent;
+            border-right: 75px solid transparent;
+            border-bottom: 150px solid #4CAF50;
+            background: transparent;
+        }
+
+        .rectangle {
+            width: 200px;
+            background: linear-gradient(135deg, #FF9800, #FF5722);
+        }
+
+        .star {
+            background: gold;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .heart {
+            background: #E91E63;
+            transform: rotate(45deg);
+            position: relative;
+        }
+
+        .heart:before, .heart:after {
+            content: "";
+            background: #E91E63;
+            border-radius: 50%;
+            position: absolute;
+            width: 150px;
+            height: 150px;
+        }
+
+        .heart:before {
+            top: -75px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -75px;
+        }
+
+        .shape-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .shape-option {
+            padding: 15px 25px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .shape-option:hover {
+            background: #1976D2;
+            transform: scale(1.05);
+        }
+
+        /* Number Grid */
+        .number-grid-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .number-grid-section h3 {
+            text-align: center;
+            color: #2575fc;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .number-cell {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .number-cell:hover {
+            background: #E3F2FD;
+            transform: scale(1.1);
+        }
+
+        .number-cell.selected {
+            background: #4CAF50;
+            color: white;
+            animation: pop 0.3s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Game Controls */
+        .game-controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .game-result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            min-height: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(106, 17, 203, 0.3);
+        }
+
+        /* Score Board */
+        .score-board {
+            background: #FFF3CD;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .score-board h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .score-display {
+            font-size: 2.5rem;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .game-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .game-tab {
+                width: 90%;
+                justify-content: center;
+            }
+            
+            .addition-visual, .subtraction-visual {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .math-symbol {
+                transform: rotate(90deg);
+            }
+            
+            .number-grid {
+                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            }
+            
+            .number-cell {
+                height: 45px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-calculator"></i>
+                <h1>Math Games</h1>
+            </div>
+            <nav>
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="alphabet.html"><i class="fas fa-font"></i> Alphabet</a>
+                <a href="math.html" class="active"><i class="fas fa-calculator"></i> Math</a>
+                <a href="coloring.html"><i class="fas fa-palette"></i> Coloring</a>
+                <a href="stories.html"><i class="fas fa-book"></i> Stories</a>
+            </nav>
+        </header>
+
+        <main class="math-page">
+            <div class="page-header">
+                <h2><i class="fas fa-gamepad"></i> Fun Math Games</h2>
+                <p>Learn counting, addition, subtraction, and shapes through interactive games</p>
+            </div>
+
+            <!-- Game Selection -->
+            <div class="game-selection">
+                <div class="game-tabs">
+                    <button class="game-tab active" onclick="showGame('counting')">
+                        <i class="fas fa-sort-numeric-up"></i> Counting
+                    </button>
+                    <button class="game-tab" onclick="showGame('addition')">
+                        <i class="fas fa-plus"></i> Addition
+                    </button>
+                    <button class="game-tab" onclick="showGame('subtraction')">
+                        <i class="fas fa-minus"></i> Subtraction
+                    </button>
+                    <button class="game-tab" onclick="showGame('shapes')">
+                        <i class="fas fa-shapes"></i> Shapes
+                    </button>
+                </div>
+
+                <!-- Counting Game -->
+                <div id="counting-game" class="game-content active">
+                    <h3><i class="fas fa-apple-alt"></i> Count the Objects</h3>
+                    <p>Count how many objects you see and select the correct number</p>
+                    
+                    <div id="counting-display"></div>
+                    
+                    <div class="counting-options" id="counting-options">
+                        <!-- Options will be added by JavaScript -->
+                    </div>
+                    
+                    <div class="game-result" id="counting-result"></div>
+                    
+                    <div class="game-controls">
+                        <button onclick="newCountingGame()" class="btn">
+                            <i class="fas fa-redo"></i> New Game
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Addition Game -->
+                <div id="addition-game" class="game-content">
+                    <h3><i class="fas fa-plus-circle"></i> Addition Practice</h3>
+                    <p>Add the two groups of objects together</p>
+                    
+                    <div class="addition-visual">
+                        <div class="math-group" id="addition-group1"></div>
+                        <div class="math-symbol">+</div>
+                        <div class="math-group" id="addition-group2"></div>
+                        <div class="math-symbol">=</div>
+                        <div class="math-group" id="addition-result-group"></div>
+                    </div>
+                    
+                    <div class="addition-input">
+                        <input type="number" id="addition-answer" min="1" max="20" placeholder="?">
+                        <button onclick="checkAddition()" class="btn">Check Answer</button>
+                    </div>
+                    
+                    <div class="game-result" id="addition-result"></div>
+                    
+                    <div class="game-controls">
+                        <button onclick="newAdditionGame()" class="btn">
+                            <i class="fas fa-random"></i> New Problem
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Subtraction Game -->
+                <div id="subtraction-game" class="game-content">
+                    <h3><i class="fas fa-minus-circle"></i> Subtraction Practice</h3>
+                    <p>Take away objects and see how many are left</p>
+                    
+                    <div class="subtraction-visual">
+                        <div class="total-group" id="total-group"></div>
+                        <div class="math-symbol">-</div>
+                        <div class="remove-group" id="remove-group"></div>
+                        <div class="math-symbol">=</div>
+                        <div class="remaining-group" id="remaining-group"></div>
+                    </div>
+                    
+                    <div class="game-result" id="subtraction-question"></div>
+                    
+                    <div class="subtraction-options" id="subtraction-options">
+                        <!-- Options will be added by JavaScript -->
+                    </div>
+                    
+                    <div class="game-result" id="subtraction-result"></div>
+                    
+                    <div class="game-controls">
+                        <button onclick="newSubtractionGame()" class="btn">
+                            <i class="fas fa-redo-alt"></i> New Problem
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Shapes Game -->
+                <div id="shapes-game" class="game-content">
+                    <h3><i class="fas fa-shapes"></i> Shape Recognition</h3>
+                    <p>Identify the correct shape name</p>
+                    
+                    <div class="shape-display">
+                        <div id="current-shape"></div>
+                    </div>
+                    
+                    <div class="shape-options" id="shape-options">
+                        <!-- Options will be added by JavaScript -->
+                    </div>
+                    
+                    <div class="game-result" id="shape-result"></div>
+                    
+                    <div class="game-controls">
+                        <button onclick="newShapeGame()" class="btn">
+                            <i class="fas fa-redo"></i> Next Shape
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Number Grid -->
+            <div class="number-grid-section">
+                <h3><i class="fas fa-th"></i> Numbers 1 to 100</h3>
+                <div class="number-grid" id="number-grid">
+                    <!-- Numbers will be added by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Score Board -->
+            <div class="score-board">
+                <h4>Your Math Score</h4>
+                <div class="score-display" id="math-score">0</div>
+                <p>Total correct answers in all games</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2023 Kids Learning World</p>
+            <p>Math is fun when you play games!</p>
+        </footer>
+    </div>
+
+    <script>
+        // Game variables
+        let mathScore = 0;
+        let currentGame = 'counting';
+        let countingObjects = 0;
+        let additionNum1 = 0, additionNum2 = 0;
+        let subtractionTotal = 0, subtractionRemove = 0;
+        let shapes = ['circle', 'square', 'triangle', 'rectangle', 'star', 'heart'];
+        let shapeNames = ['Circle', 'Square', 'Triangle', 'Rectangle', 'Star', 'Heart'];
+        let currentShapeIndex = 0;
+
+        // Initialize page
+        function init() {
+            createNumberGrid();
+            newCountingGame();
+            newAdditionGame();
+            newSubtractionGame();
+            newShapeGame();
+        }
+
+        // Show selected game
+        function showGame(gameName) {
+            // Hide all games
+            document.querySelectorAll('.game-content').forEach(game => {
+                game.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.game-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected game
+            document.getElementById(gameName + '-game').classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            currentGame = gameName;
+        }
+
+        // ========== COUNTING GAME ==========
+        function newCountingGame() {
+            countingObjects = Math.floor(Math.random() * 10) + 1; // 1 to 10 objects
+            const display = document.getElementById('counting-display');
+            display.innerHTML = '';
+            
+            const emojis = ['🍎', '🍌', '🍇', '🍓', '🍊', '🍉', '🍑', '🍒', '⭐', '🎈'];
+            
+            for(let i = 0; i < countingObjects; i++) {
+                const item = document.createElement('div');
+                item.className = 'counting-item';
+                item.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                item.style.animationDelay = (i * 0.1) + 's';
+                display.appendChild(item);
+            }
+            
+            // Create options (1 to 10)
+            const optionsContainer = document.getElementById('counting-options');
+            optionsContainer.innerHTML = '';
+            
+            const correctAnswer = countingObjects;
+            const options = [correctAnswer];
+            
+            // Add wrong options
+            while(options.length < 4) {
+                const wrongOption = Math.floor(Math.random() * 10) + 1;
+                if(!options.includes(wrongOption)) {
+                    options.push(wrongOption);
+                }
+            }
+            
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+            
+            // Create buttons
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'counting-option';
+                button.textContent = option;
+                button.onclick = () => checkCountingAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('counting-result').textContent = '';
+        }
+
+        function checkCountingAnswer(selected) {
+            const result = document.getElementById('counting-result');
+            if(selected === countingObjects) {
+                mathScore++;
+                updateMathScore();
+                result.textContent = 'Correct! 🎉 There are ' + countingObjects + ' objects.';
+                result.style.color = 'green';
+                playSuccessSound();
+                setTimeout(newCountingGame, 1500);
+            } else {
+                result.textContent = 'Try again! Count carefully.';
+                result.style.color = 'red';
+                playErrorSound();
+            }
+        }
+
+        // ========== ADDITION GAME ==========
+        function newAdditionGame() {
+            additionNum1 = Math.floor(Math.random() * 10) + 1;
+            additionNum2 = Math.floor(Math.random() * 10) + 1;
+            
+            const group1 = document.getElementById('addition-group1');
+            const group2 = document.getElementById('addition-group2');
+            
+            group1.innerHTML = '';
+            group2.innerHTML = '';
+            
+            // Create first group
+            for(let i = 0; i < additionNum1; i++) {
+                const ball = document.createElement('div');
+                ball.className = 'math-ball';
+                ball.style.backgroundColor = getRandomColor();
+                group1.appendChild(ball);
+            }
+            
+            // Create second group
+            for(let i = 0; i < additionNum2; i++) {
+                const ball = document.createElement('div');
+                ball.className = 'math-ball';
+                ball.style.backgroundColor = getRandomColor();
+                group2.appendChild(ball);
+            }
+            
+            // Clear result
+            document.getElementById('addition-result').textContent = '';
+            document.getElementById('addition-answer').value = '';
+        }
+
+        function checkAddition() {
+            const answer = parseInt(document.getElementById('addition-answer').value);
+            const correctAnswer = additionNum1 + additionNum2;
+            const result = document.getElementById('addition-result');
+            
+            if(answer === correctAnswer) {
+                mathScore++;
+                updateMathScore();
+                result.textContent = 'Excellent! ' + additionNum1 + ' + ' + additionNum2 + ' = ' + correctAnswer;
+                result.style.color = 'green';
+                playSuccessSound();
+                
+                // Show result group
+                const resultGroup = document.getElementById('addition-result-group');
+                resultGroup.innerHTML = '';
+                for(let i = 0; i < correctAnswer; i++) {
+                    const ball = document.createElement('div');
+                    ball.className = 'math-ball';
+                    ball.style.backgroundColor = getRandomColor();
+                    resultGroup.appendChild(ball);
+                }
+                
+                setTimeout(newAdditionGame, 2000);
+            } else {
+                result.textContent = 'Not quite. Try again! The answer is ' + correctAnswer;
+                result.style.color = 'red';
+                playErrorSound();
+            }
+        }
+
+        // ========== SUBTRACTION GAME ==========
+        function newSubtractionGame() {
+            subtractionTotal = Math.floor(Math.random() * 10) + 3; // 3 to 12
+            subtractionRemove = Math.floor(Math.random() * (subtractionTotal - 1)) + 1; // Remove 1 to (total-1)
+            
+            const totalGroup = document.getElementById('total-group');
+            const removeGroup = document.getElementById('remove-group');
+            const remainingGroup = document.getElementById('remaining-group');
+            
+            // Clear groups
+            totalGroup.innerHTML = '';
+            removeGroup.innerHTML = '';
+            remainingGroup.innerHTML = '';
+            
+            // Create total group
+            for(let i = 0; i < subtractionTotal; i++) {
+                const item = document.createElement('div');
+                item.className = 'math-item';
+                totalGroup.appendChild(item);
+            }
+            
+            // Create remove group (crossed out)
+            for(let i = 0; i < subtractionRemove; i++) {
+                const item = document.createElement('div');
+                item.className = 'math-item removed';
+                removeGroup.appendChild(item);
+            }
+            
+            // Create remaining group (will be filled after answer)
+            const remaining = subtractionTotal - subtractionRemove;
+            
+            // Update question
+            document.getElementById('subtraction-question').textContent = 
+                subtractionTotal + ' - ' + subtractionRemove + ' = ?';
+            
+            // Create options
+            const optionsContainer = document.getElementById('subtraction-options');
+            optionsContainer.innerHTML = '';
+            
+            const correctAnswer = remaining;
+            const options = [correctAnswer];
+            
+            // Add wrong options
+            while(options.length < 4) {
+                const wrongOption = Math.floor(Math.random() * 10) + 1;
+                if(!options.includes(wrongOption)) {
+                    options.push(wrongOption);
+                }
+            }
+            
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+            
+            // Create buttons
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'subtraction-option';
+                button.textContent = option;
+                button.onclick = () => checkSubtractionAnswer(option, remaining, remainingGroup);
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('subtraction-result').textContent = '';
+        }
+
+        function checkSubtractionAnswer(selected, correct, remainingGroup) {
+            const result = document.getElementById('subtraction-result');
+            
+            if(selected === correct) {
+                mathScore++;
+                updateMathScore();
+                result.textContent = 'Perfect! ' + subtractionTotal + ' - ' + subtractionRemove + ' = ' + correct;
+                result.style.color = 'green';
+                playSuccessSound();
+                
+                // Show remaining items
+                remainingGroup.innerHTML = '';
+                for(let i = 0; i < correct; i++) {
+                    const item = document.createElement('div');
+                    item.className = 'math-item';
+                    item.style.backgroundColor = '#4CAF50';
+                    remainingGroup.appendChild(item);
+                }
+                
+                setTimeout(newSubtractionGame, 2000);
+            } else {
+                result.textContent = 'Try again! The answer is ' + correct;
+                result.style.color = 'red';
+                playErrorSound();
+            }
+        }
+
+        // ========== SHAPES GAME ==========
+        function newShapeGame() {
+            currentShapeIndex = Math.floor(Math.random() * shapes.length);
+            const shapeDisplay = document.getElementById('current-shape');
+            
+            shapeDisplay.className = 'shape ' + shapes[currentShapeIndex];
+            
+            // Create options
+            const optionsContainer = document.getElementById('shape-options');
+            optionsContainer.innerHTML = '';
+            
+            const correctName = shapeNames[currentShapeIndex];
+            const options = [correctName];
+            
+            // Add wrong options
+            while(options.length < 4) {
+                const randomIndex = Math.floor(Math.random() * shapeNames.length);
+                const wrongName = shapeNames[randomIndex];
+                if(!options.includes(wrongName)) {
+                    options.push(wrongName);
+                }
+            }
+            
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+            
+            // Create buttons
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'shape-option';
+                button.textContent = option;
+                button.onclick = () => checkShapeAnswer(option, correctName);
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('shape-result').textContent = '';
+        }
+
+        function checkShapeAnswer(selected, correct) {
+            const result = document.getElementById('shape-result');
+            
+            if(selected === correct) {
+                mathScore++;
+                updateMathScore();
+                result.textContent = 'Great job! That\'s a ' + correct;
+                result.style.color = 'green';
+                playSuccessSound();
+                
+                // Animate shape
+                const shape = document.getElementById('current-shape');
+                shape.style.transform = shapes[currentShapeIndex] === 'heart' ? 'rotate(45deg) scale(1.2)' : 'scale(1.2)';
+                setTimeout(() => {
+                    shape.style.transform = shapes[currentShapeIndex] === 'heart' ? 'rotate(45deg) scale(1)' : 'scale(1)';
+                    setTimeout(newShapeGame, 1000);
+                }, 500);
+            } else {
+                result.textContent = 'That\'s a ' + correct;
+                result.style.color = 'red';
+                playErrorSound();
+            }
+        }
+
+        // ========== NUMBER GRID ==========
+        function createNumberGrid() {
+            const grid = document.getElementById('number-grid');
+            grid.innerHTML = '';
+            
+            for(let i = 1; i <= 100; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'number-cell';
+                cell.textContent = i;
+                cell.onclick = () => {
+                    speakNumber(i);
+                    cell.classList.add('selected');
+                    setTimeout(() => cell.classList.remove('selected'), 500);
+                };
+                grid.appendChild(cell);
+            }
+        }
+
+        // ========== HELPER FUNCTIONS ==========
+        function getRandomColor() {
+            const colors = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', 
+                          '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#69F0AE'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function updateMathScore() {
+            document.getElementById('math-score').textContent = mathScore;
+        }
+
+        function speakNumber(number) {
+            if('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance(number.toString());
+                speech.lang = 'en-US';
+                speech.rate = 0.8;
+                window.speechSynthesis.speak(speech);
+            }
+        }
+
+        function playSuccessSound() {
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3');
+            audio.volume = 0.3;
+            audio.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        function playErrorSound() {
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3');
+            audio.volume = 0.3;
+            audio.play().catch(e => console.log("Audio play failed:", e));
+        }
+
+        // Initialize when page loads
+        window.onload = init;
+    </script>
+</body>
+</html>

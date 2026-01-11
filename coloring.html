@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coloring Book - Kids Learning World</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+        
+        .nav a:hover, .nav a.active {
+            background: white;
+            color: #2575fc;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            padding: 20px;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        /* Left Column - Canvas */
+        .canvas-column {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .canvas-container {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        #coloring-canvas {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: crosshair;
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 700px;
+            height: 450px;
+        }
+        
+        /* Right Column - Tools */
+        .tools-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        /* Colors Section */
+        .colors-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .colors-section h3 {
+            color: #2196F3;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .colors-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .color-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
+        
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-btn.active {
+            border: 4px solid #333;
+            transform: scale(1.1);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        
+        .custom-color {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        #color-picker {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        
+        /* Tools Section */
+        .tools-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .tools-section h3 {
+            color: #FF9800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tool-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tool-btn {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tool-btn:hover {
+            background: #f5f5f5;
+            transform: translateY(-2px);
+        }
+        
+        .tool-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #388E3C;
+        }
+        
+        .tool-icon {
+            font-size: 1.5rem;
+        }
+        
+        /* Brush Sizes */
+        .brush-sizes {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .size-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .size-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .size-btn.active {
+            background: #2196F3;
+            transform: scale(1.1);
+        }
+        
+        /* Actions Section */
+        .actions-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .actions-section h3 {
+            color: #9C27B0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .clear-btn {
+            background: #f44336;
+            color: white;
+        }
+        
+        .undo-btn {
+            background: #FF9800;
+            color: white;
+        }
+        
+        .save-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .print-btn {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        
+        /* Status Bar */
+        .status-bar {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .current-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+        
+        /* Pages Section */
+        .pages-section {
+            background: white;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .pages-section h2 {
+            color: #2575fc;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+        }
+        
+        .page-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .page-btn:hover {
+            border-color: #4CAF50;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(76, 175, 80, 0.2);
+        }
+        
+        .page-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            background: #f9f9f9;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            #coloring-canvas {
+                height: 350px;
+            }
+            
+            .colors-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .pages-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #coloring-canvas {
+                height: 300px;
+            }
+            
+            .colors-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .pages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .tool-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎨 Kids Coloring Book</h1>
+            <p>Color, Create, Have Fun!</p>
+            <div class="nav">
+                <a href="index.html">🏠 Home</a>
+                <a href="alphabet.html">🔤 Alphabet</a>
+                <a href="math.html">🧮 Math</a>
+                <a href="coloring.html" class="active">🎨 Coloring</a>
+                <a href="stories.html">📚 Stories</a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Column - Canvas -->
+            <div class="canvas-column">
+                <div class="canvas-container">
+                    <canvas id="coloring-canvas" width="700" height="450">
+                        Your browser doesn't support canvas.
+                    </canvas>
+                    <p style="margin-top: 10px; color: #666; font-size: 0.9rem;">
+                        Click and drag to draw. Change colors and tools on the right.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Right Column - Tools -->
+            <div class="tools-column">
+                <!-- Colors -->
+                <div class="colors-section">
+                    <h3>🎨 Colors</h3>
+                    <div class="colors-grid" id="colors-grid">
+                        <!-- Colors will be added here -->
+                    </div>
+                    <div class="custom-color">
+                        <input type="color" id="color-picker" value="#ff0000">
+                        <button onclick="addCustomColor()" 
+                                style="padding: 8px 15px; background: #2196F3; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 5px;">
+                            Add Custom Color
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tools -->
+                <div class="tools-section">
+                    <h3>🛠️ Tools</h3>
+                    <div class="tool-buttons">
+                        <button class="tool-btn active" onclick="setTool('brush')">
+                            <span class="tool-icon">🖌️</span>
+                            <span>Brush</span>
+                        </button>
+                        <button class="tool-btn" onclick="setTool('eraser')">
+                            <span class="tool-icon">🧽</span>
+                            <span>Eraser</span>
+                        </button>
+                        <button class="tool-btn" onclick="setTool('fill')">
+                            <span class="tool-icon">🪣</span>
+                            <span>Fill</span>
+                        </button>
+                    </div>
+                    
+                    <h3 style="margin-top: 20px;">📏 Brush Size</h3>
+                    <div class="brush-sizes">
+                        <button class="size-btn active" onclick="setBrushSize(5)">S</button>
+                        <button class="size-btn" onclick="setBrushSize(10)">M</button>
+                        <button class="size-btn" onclick="setBrushSize(20)">L</button>
+                    </div>
+                </div>
+                
+                <!-- Actions -->
+                <div class="actions-section">
+                    <h3>⚡ Actions</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn clear-btn" onclick="clearCanvas()">
+                            🗑️ Clear
+                        </button>
+                        <button class="action-btn undo-btn" onclick="undoDrawing()">
+                            ↩️ Undo
+                        </button>
+                        <button class="action-btn save-btn" onclick="saveDrawing()">
+                            💾 Save
+                        </button>
+                        <button class="action-btn print-btn" onclick="printDrawing()">
+                            🖨️ Print
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Status Bar -->
+                <div class="status-bar">
+                    <div class="status-item">
+                        <span>Tool:</span>
+                        <strong id="current-tool">Brush</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>Color:</span>
+                        <div class="current-color" id="current-color-display" style="background: #ff0000;"></div>
+                    </div>
+                    <div class="status-item">
+                        <span>Size:</span>
+                        <strong id="current-size">Medium</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Coloring Pages -->
+        <div class="pages-section">
+            <h2>Choose a Coloring Page</h2>
+            <div class="pages-grid" id="pages-grid">
+                <!-- Pages will be added here -->
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer>
+            <p>© 2023 Kids Learning World | Made with ❤️ for creative children</p>
+        </footer>
+    </div>
+
+    <script>
+        // ========== SIMPLE WORKING COLORING PAGE ==========
+        
+        // Get canvas
+        const canvas = document.getElementById('coloring-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas background to white
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Drawing variables
+        let isDrawing = false;
+        let currentTool = 'brush';
+        let currentColor = '#ff0000'; // Starting with red
+        let brushSize = 10;
+        let lastX = 0;
+        let lastY = 0;
+        
+        // Color palette - DIFFERENT COLORS
+        const colors = [
+            '#ff0000', // Red
+            '#ff9900', // Orange
+            '#ffff00', // Yellow
+            '#00ff00', // Green
+            '#0000ff', // Blue
+            '#9900ff', // Purple
+            '#ff00ff', // Pink
+            '#000000', // Black
+            '#ffffff', // White
+            '#8B4513', // Brown
+            '#ff69b4', // Hot Pink
+            '#00ffff', // Cyan
+            '#808080', // Gray
+            '#654321', // Dark Brown
+            '#ffa500'  // Orange
+        ];
+        
+        // Coloring pages
+        const pages = [
+            { id: 'butterfly', name: 'Butterfly', emoji: '🦋' },
+            { id: 'lion', name: 'Lion', emoji: '🦁' },
+            { id: 'elephant', name: 'Elephant', emoji: '🐘' },
+            { id: 'car', name: 'Car', emoji: '🚗' },
+            { id: 'house', name: 'House', emoji: '🏠' },
+            { id: 'flower', name: 'Flower', emoji: '🌺' },
+            { id: 'tree', name: 'Tree', emoji: '🌳' },
+            { id: 'fish', name: 'Fish', emoji: '🐠' },
+            { id: 'star', name: 'Star', emoji: '⭐' },
+            { id: 'heart', name: 'Heart', emoji: '❤️' }
+        ];
+        
+        let currentPage = 'butterfly';
+        
+        // Initialize everything
+        function init() {
+            console.log("Initializing coloring page...");
+            createColorButtons();
+            createPageButtons();
+            loadPage(currentPage);
+            setupCanvasEvents();
+            updateStatusDisplay();
+        }
+        
+        // Create color buttons
+        function createColorButtons() {
+            const colorsGrid = document.getElementById('colors-grid');
+            colorsGrid.innerHTML = '';
+            
+            colors.forEach(color => {
+                const button = document.createElement('button');
+                button.className = 'color-btn';
+                button.style.backgroundColor = color;
+                button.title = color;
+                
+                // Set data attribute for color
+                button.setAttribute('data-color', color);
+                
+                // Click event
+                button.addEventListener('click', function() {
+                    selectColor(color);
+                    
+                    // Update active state
+                    document.querySelectorAll('.color-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    console.log("Selected color:", color);
+                });
+                
+                colorsGrid.appendChild(button);
+            });
+            
+            // Select first color by default
+            if (colorsGrid.firstChild) {
+                colorsGrid.firstChild.click();
+            }
+        }
+        
+        // Select a color
+        function selectColor(color) {
+            console.log("Setting color to:", color);
+            currentColor = color;
+            
+            // Update color picker
+            document.getElementById('color-picker').value = color;
+            
+            // Update status display
+            document.getElementById('current-color-display').style.backgroundColor = color;
+            
+            // Log to verify
+            console.log("Current color is now:", currentColor);
+        }
+        
+        // Add custom color
+        function addCustomColor() {
+            const colorPicker = document.getElementById('color-picker');
+            const color = colorPicker.value;
+            
+            if (!colors.includes(color)) {
+                colors.push(color);
+                createColorButtons();
+                selectColor(color);
+            }
+        }
+        
+        // Set drawing tool
+        function setTool(tool) {
+            console.log("Setting tool to:", tool);
+            currentTool = tool;
+            
+            // Update button states
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.tool-btn').classList.add('active');
+            
+            // Update cursor
+            canvas.style.cursor = tool === 'fill' ? 'pointer' : 'crosshair';
+            
+            updateStatusDisplay();
+        }
+        
+        // Set brush size
+        function setBrushSize(size) {
+            console.log("Setting brush size to:", size);
+            brushSize = size;
+            
+            // Update button states
+            document.querySelectorAll('.size-btn').forEach((btn, index) => {
+                const sizes = [5, 10, 20];
+                btn.classList.toggle('active', sizes[index] === size);
+            });
+            
+            updateStatusDisplay();
+        }
+        
+        // Create page buttons
+        function createPageButtons() {
+            const pagesGrid = document.getElementById('pages-grid');
+            pagesGrid.innerHTML = '';
+            
+            pages.forEach(page => {
+                const button = document.createElement('button');
+                button.className = 'page-btn';
+                button.innerHTML = `
+                    <span class="page-icon">${page.emoji}</span>
+                    <span>${page.name}</span>
+                `;
+                
+                button.addEventListener('click', function() {
+                    loadPage(page.id);
+                });
+                
+                pagesGrid.appendChild(button);
+            });
+        }
+        
+        // Load a coloring page
+        function loadPage(pageId) {
+            console.log("Loading page:", pageId);
+            currentPage = pageId;
+            
+            // Clear canvas with white
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw the outline
+            drawOutline(pageId);
+        }
+        
+        // Draw outline based on page
+        function drawOutline(pageId) {
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            
+            switch(pageId) {
+                case 'butterfly':
+                    drawButterfly();
+                    break;
+                case 'lion':
+                    drawLion();
+                    break;
+                case 'flower':
+                    drawFlower();
+                    break;
+                case 'car':
+                    drawCar();
+                    break;
+                case 'house':
+                    drawHouse();
+                    break;
+                default:
+                    drawSimpleShape();
+            }
+        }
+        
+        // Drawing functions
+        function drawButterfly() {
+            // Body
+            ctx.beginPath();
+            ctx.ellipse(350, 225, 10, 40, 0, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Left wings
+            ctx.beginPath();
+            ctx.ellipse(250, 175, 70, 100, 0, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.ellipse(250, 275, 50, 80, 0, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Right wings
+            ctx.beginPath();
+            ctx.ellipse(450, 175, 70, 100, 0, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.ellipse(450, 275, 50, 80, 0, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        
+        function drawLion() {
+            // Face
+            ctx.beginPath();
+            ctx.arc(350, 200, 70, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Mane
+            for(let i = 0; i < 12; i++) {
+                const angle = (i / 12) * Math.PI * 2;
+                const x = 350 + Math.cos(angle) * 90;
+                const y = 200 + Math.sin(angle) * 90;
+                
+                ctx.beginPath();
+                ctx.moveTo(350, 200);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            }
+            
+            // Eyes
+            ctx.beginPath();
+            ctx.arc(320, 180, 8, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.arc(380, 180, 8, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Nose
+            ctx.beginPath();
+            ctx.arc(350, 210, 12, 0, Math.PI);
+            ctx.stroke();
+        }
+        
+        function drawFlower() {
+            // Stem
+            ctx.beginPath();
+            ctx.moveTo(350, 400);
+            ctx.lineTo(350, 250);
+            ctx.stroke();
+            
+            // Flower center
+            ctx.beginPath();
+            ctx.arc(350, 200, 25, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Petals
+            for(let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                const x = 350 + Math.cos(angle) * 60;
+                const y = 200 + Math.sin(angle) * 60;
+                
+                ctx.beginPath();
+                ctx.ellipse(x, y, 25, 15, angle, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+        
+        function drawCar() {
+            // Body
+            ctx.beginPath();
+            ctx.rect(250, 300, 200, 80);
+            ctx.stroke();
+            
+            // Top
+            ctx.beginPath();
+            ctx.rect(300, 250, 100, 50);
+            ctx.stroke();
+            
+            // Wheels
+            ctx.beginPath();
+            ctx.arc(300, 380, 25, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.arc(400, 380, 25, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        
+        function drawHouse() {
+            // Base
+            ctx.beginPath();
+            ctx.rect(250, 300, 200, 150);
+            ctx.stroke();
+            
+            // Roof
+            ctx.beginPath();
+            ctx.moveTo(200, 300);
+            ctx.lineTo(350, 200);
+            ctx.lineTo(500, 300);
+            ctx.closePath();
+            ctx.stroke();
+            
+            // Door
+            ctx.beginPath();
+            ctx.rect(330, 350, 40, 100);
+            ctx.stroke();
+            
+            // Windows
+            ctx.beginPath();
+            ctx.rect(270, 320, 40, 40);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.rect(390, 320, 40, 40);
+            ctx.stroke();
+        }
+        
+        function drawSimpleShape() {
+            // Simple frame
+            ctx.strokeRect(100, 100, 500, 250);
+            
+            // Some shapes
+            ctx.beginPath();
+            ctx.arc(200, 225, 50, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.arc(350, 225, 50, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.arc(500, 225, 50, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        
+        // Set up canvas event listeners
+        function setupCanvasEvents() {
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Touch events for mobile
+            canvas.addEventListener('touchstart', handleTouchStart);
+            canvas.addEventListener('touchmove', handleTouchMove);
+            canvas.addEventListener('touchend', stopDrawing);
+        }
+        
+        // Start drawing
+        function startDrawing(e) {
+            isDrawing = true;
+            const pos = getCanvasPosition(e);
+            [lastX, lastY] = [pos.x, pos.y];
+            
+            // If using fill tool, fill area immediately
+            if (currentTool === 'fill') {
+                simpleFill(pos.x, pos.y);
+                isDrawing = false;
+            }
+        }
+        
+        // Draw function
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            const pos = getCanvasPosition(e);
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            
+            // Set drawing properties based on tool
+            if (currentTool === 'brush') {
+                ctx.strokeStyle = currentColor;
+                ctx.lineWidth = brushSize;
+                ctx.globalCompositeOperation = 'source-over';
+                console.log("Drawing with color:", currentColor);
+            } else if (currentTool === 'eraser') {
+                ctx.strokeStyle = '#FFFFFF'; // White for eraser
+                ctx.lineWidth = brushSize;
+                ctx.globalCompositeOperation = 'destination-out';
+            }
+            
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            
+            [lastX, lastY] = [pos.x, pos.y];
+        }
+        
+        // Stop drawing
+        function stopDrawing() {
+            isDrawing = false;
+        }
+        
+        // Get canvas position
+        function getCanvasPosition(e) {
+            const rect = canvas.getBoundingClientRect();
+            let x, y;
+            
+            if (e.type.includes('touch')) {
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+            } else {
+                x = e.clientX - rect.left;
+                y = e.clientY - rect.top;
+            }
+            
+            // Scale to canvas size
+            x = (x / rect.width) * canvas.width;
+            y = (y / rect.height) * canvas.height;
+            
+            return { x, y };
+        }
+        
+        // Handle touch start
+        function handleTouchStart(e) {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+                startDrawing(e.touches[0]);
+            }
+        }
+        
+        // Handle touch move
+        function handleTouchMove(e) {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+                draw(e.touches[0]);
+            }
+        }
+        
+        // Simple fill function
+        function simpleFill(x, y) {
+            ctx.fillStyle = currentColor;
+            ctx.fillRect(x - 30, y - 30, 60, 60);
+        }
+        
+        // Clear canvas
+        function clearCanvas() {
+            if (confirm('Clear the canvas and start over?')) {
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                loadPage(currentPage);
+            }
+        }
+        
+        // Undo drawing (simple version - reload page)
+        function undoDrawing() {
+            loadPage(currentPage);
+        }
+        
+        // Save drawing
+        function saveDrawing() {
+            const link = document.createElement('a');
+            link.download = 'my-coloring.png';
+            link.href = canvas.toDataURL();
+            link.click();
+            alert('Drawing saved as PNG file!');
+        }
+        
+        // Print drawing
+        function printDrawing() {
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head><title>My Coloring</title></head>
+                    <body style="text-align: center; padding: 20px;">
+                        <h1 style="color: #4CAF50;">My Coloring Art</h1>
+                        <img src="${canvas.toDataURL()}" style="max-width: 100%; border: 2px solid #ddd;">
+                        <p>Created with Kids Learning World</p>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+        
+        // Update status display
+        function updateStatusDisplay() {
+            // Update tool
+            document.getElementById('current-tool').textContent = 
+                currentTool.charAt(0).toUpperCase() + currentTool.slice(1);
+            
+            // Update size
+            let sizeText = 'Medium';
+            if (brushSize === 5) sizeText = 'Small';
+            if (brushSize === 20) sizeText = 'Large';
+            document.getElementById('current-size').textContent = sizeText;
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>

@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Alphabet - Kids Learning World</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Alphabet Page Specific Styles */
+        .alphabet-page {
+            padding: 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .page-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Letters Section */
+        .letters-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .letters-section h3 {
+            color: #2575fc;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #FFD700;
+            padding-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .letter-card {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter-card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+        }
+
+        .letter-card .letter {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .letter-card .sound {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .letter-card.clicked {
+            animation: bounce 0.5s ease;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        }
+
+        .letter-card.clicked .letter {
+            color: white;
+        }
+
+        .letter-card.clicked .sound {
+            color: white;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Game Section */
+        .game-section {
+            background: #e8f5e9;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .game-section h3 {
+            color: #d32f2f;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+        }
+
+        .game-container {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        #question {
+            font-size: 1.8rem;
+            color: #2575fc;
+            margin-bottom: 20px;
+            min-height: 40px;
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            width: 80px;
+            height: 80px;
+            font-size: 2.5rem;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .option:hover {
+            background: #1976D2;
+            transform: scale(1.1);
+        }
+
+        #result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            min-height: 30px;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(106, 17, 203, 0.3);
+        }
+
+        /* Words Section */
+        .words-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .words-section h3 {
+            color: #9C27B0;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .words-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .word-card {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .word-card:hover {
+            background: #e0e0e0;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.1);
+        }
+
+        .word-card .letter {
+            font-size: 3rem;
+            color: #2196F3;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .word-card .word {
+            font-size: 1.8rem;
+            color: #333;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .word-card .example {
+            font-size: 1rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Numbers Section */
+        .numbers-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .numbers-section h3 {
+            color: #FF9800;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .number-card {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .number-card:hover {
+            background: #E3F2FD;
+            transform: scale(1.1);
+        }
+
+        .number-card.selected {
+            background: #4CAF50;
+            color: white;
+            animation: pop 0.3s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Score Board */
+        .score-board {
+            background: #FFF3CD;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .score-board h4 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .score-display {
+            font-size: 2.5rem;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .letters-grid {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            }
+            
+            .letter-card {
+                height: 80px;
+            }
+            
+            .letter-card .letter {
+                font-size: 2.2rem;
+            }
+            
+            .options-container {
+                gap: 10px;
+            }
+            
+            .option {
+                width: 70px;
+                height: 70px;
+                font-size: 2.2rem;
+            }
+            
+            .words-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .numbers-grid {
+                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            }
+            
+            .number-card {
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-font"></i>
+                <h1>Learn Alphabet</h1>
+            </div>
+            <nav>
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="alphabet.html" class="active"><i class="fas fa-font"></i> Alphabet</a>
+                <a href="math.html"><i class="fas fa-calculator"></i> Math</a>
+                <a href="coloring.html"><i class="fas fa-palette"></i> Coloring</a>
+                <a href="stories.html"><i class="fas fa-book"></i> Stories</a>
+            </nav>
+        </header>
+
+        <main class="alphabet-page">
+            <div class="page-header">
+                <h2><i class="fas fa-font"></i> English Alphabet</h2>
+                <p>Click on letters to hear their sounds. Learn words starting with each letter.</p>
+            </div>
+
+            <!-- Letters Section -->
+            <div class="letters-section">
+                <h3>Alphabet A to Z</h3>
+                <div class="letters-grid" id="letters-grid">
+                    <!-- Letters will be added by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Game Section -->
+            <div class="game-section">
+                <h3><i class="fas fa-gamepad"></i> Alphabet Game</h3>
+                <div class="game-container">
+                    <div id="question">Click "New Question" to start</div>
+                    
+                    <div class="options-container" id="options-container">
+                        <!-- Options will be added by JavaScript -->
+                    </div>
+                    
+                    <div id="result"></div>
+                    
+                    <div class="game-controls">
+                        <button onclick="newQuestion()" class="btn">
+                            <i class="fas fa-redo"></i> New Question
+                        </button>
+                        <button onclick="showHint()" class="btn">
+                            <i class="fas fa-lightbulb"></i> Hint
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Words Section -->
+            <div class="words-section">
+                <h3><i class="fas fa-book"></i> Words for Each Letter</h3>
+                <div class="words-grid" id="words-grid">
+                    <!-- Word cards will be added by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Numbers Section -->
+            <div class="numbers-section">
+                <h3><i class="fas fa-sort-numeric-up"></i> Numbers 1 to 100</h3>
+                <div class="numbers-grid" id="numbers-grid">
+                    <!-- Numbers 1-100 will be added by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Score Board -->
+            <div class="score-board">
+                <h4>Your Score</h4>
+                <div class="score-display" id="score">0</div>
+                <p>Correct answers in the alphabet game</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2023 Kids Learning World</p>
+            <p>Learn your ABCs and have fun!</p>
+        </footer>
+    </div>
+
+    <script>
+        // Alphabet data
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        
+        // Words for each letter
+        const letterWords = {
+            'A': { word: 'Apple', example: 'A is for Apple' },
+            'B': { word: 'Ball', example: 'B is for Ball' },
+            'C': { word: 'Cat', example: 'C is for Cat' },
+            'D': { word: 'Dog', example: 'D is for Dog' },
+            'E': { word: 'Elephant', example: 'E is for Elephant' },
+            'F': { word: 'Fish', example: 'F is for Fish' },
+            'G': { word: 'Giraffe', example: 'G is for Giraffe' },
+            'H': { word: 'House', example: 'H is for House' },
+            'I': { word: 'Ice Cream', example: 'I is for Ice Cream' },
+            'J': { word: 'Juice', example: 'J is for Juice' },
+            'K': { word: 'Kite', example: 'K is for Kite' },
+            'L': { word: 'Lion', example: 'L is for Lion' },
+            'M': { word: 'Monkey', example: 'M is for Monkey' },
+            'N': { word: 'Nest', example: 'N is for Nest' },
+            'O': { word: 'Orange', example: 'O is for Orange' },
+            'P': { word: 'Panda', example: 'P is for Panda' },
+            'Q': { word: 'Queen', example: 'Q is for Queen' },
+            'R': { word: 'Rabbit', example: 'R is for Rabbit' },
+            'S': { word: 'Sun', example: 'S is for Sun' },
+            'T': { word: 'Tree', example: 'T is for Tree' },
+            'U': { word: 'Umbrella', example: 'U is for Umbrella' },
+            'V': { word: 'Van', example: 'V is for Van' },
+            'W': { word: 'Watermelon', example: 'W is for Watermelon' },
+            'X': { word: 'Xylophone', example: 'X is for Xylophone' },
+            'Y': { word: 'Yacht', example: 'Y is for Yacht' },
+            'Z': { word: 'Zebra', example: 'Z is for Zebra' }
+        };
+
+        // Game variables
+        let score = 0;
+        let currentCorrectLetter = '';
+        let gameLetters = [];
+
+        // Initialize page
+        function init() {
+            createLetterCards();
+            createWordCards();
+            createNumberGrid();
+            newQuestion();
+        }
+
+        // Create letter cards
+        function createLetterCards() {
+            const lettersGrid = document.getElementById('letters-grid');
+            lettersGrid.innerHTML = '';
+            
+            alphabet.forEach(letter => {
+                const card = document.createElement('div');
+                card.className = 'letter-card';
+                card.dataset.letter = letter;
+                
+                const letterDiv = document.createElement('div');
+                letterDiv.className = 'letter';
+                letterDiv.textContent = letter;
+                
+                const soundDiv = document.createElement('div');
+                soundDiv.className = 'sound';
+                soundDiv.textContent = 'Click to hear';
+                
+                card.appendChild(letterDiv);
+                card.appendChild(soundDiv);
+                
+                card.addEventListener('click', function() {
+                    speakLetter(letter);
+                    card.classList.add('clicked');
+                    setTimeout(() => card.classList.remove('clicked'), 500);
+                });
+                
+                lettersGrid.appendChild(card);
+            });
+        }
+
+        // Create word cards
+        function createWordCards() {
+            const wordsGrid = document.getElementById('words-grid');
+            wordsGrid.innerHTML = '';
+            
+            alphabet.forEach(letter => {
+                const wordData = letterWords[letter];
+                const card = document.createElement('div');
+                card.className = 'word-card';
+                
+                card.innerHTML = `
+                    <div class="letter">${letter}</div>
+                    <div class="word">${wordData.word}</div>
+                    <div class="example">${wordData.example}</div>
+                `;
+                
+                card.addEventListener('click', function() {
+                    speakWord(wordData.word);
+                    card.style.backgroundColor = '#E3F2FD';
+                    setTimeout(() => card.style.backgroundColor = '', 500);
+                });
+                
+                wordsGrid.appendChild(card);
+            });
+        }
+
+        // Create number grid 1-100
+        function createNumberGrid() {
+            const numbersGrid = document.getElementById('numbers-grid');
+            numbersGrid.innerHTML = '';
+            
+            for(let i = 1; i <= 100; i++) {
+                const card = document.createElement('div');
+                card.className = 'number-card';
+                card.textContent = i;
+                card.dataset.number = i;
+                
+                card.addEventListener('click', function() {
+                    speakNumber(i);
+                    card.classList.add('selected');
+                    setTimeout(() => card.classList.remove('selected'), 500);
+                });
+                
+                numbersGrid.appendChild(card);
+            }
+        }
+
+        // Generate new question
+        function newQuestion() {
+            document.getElementById('result').textContent = '';
+            document.getElementById('result').style.color = '';
+            
+            // Get 4 random letters
+            gameLetters = [];
+            while(gameLetters.length < 4) {
+                const randomLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+                if(!gameLetters.includes(randomLetter)) {
+                    gameLetters.push(randomLetter);
+                }
+            }
+            
+            // Select one as correct answer
+            currentCorrectLetter = gameLetters[Math.floor(Math.random() * gameLetters.length)];
+            
+            // Update question
+            document.getElementById('question').textContent = 
+                `Find the letter "${currentCorrectLetter}"`;
+            
+            // Create options
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            gameLetters.forEach(letter => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.textContent = letter;
+                button.addEventListener('click', () => checkAnswer(letter));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        // Check answer
+        function checkAnswer(selectedLetter) {
+            const result = document.getElementById('result');
+            
+            if(selectedLetter === currentCorrectLetter) {
+                score++;
+                document.getElementById('score').textContent = score;
+                result.textContent = 'Correct! Well done! 🎉';
+                result.style.color = 'green';
+                
+                // Play success sound
+                playSuccessSound();
+                
+                // Highlight the correct letter in grid
+                highlightLetterInGrid(currentCorrectLetter);
+                
+                // Auto next question after delay
+                setTimeout(newQuestion, 1500);
+            } else {
+                result.textContent = `Try again! The correct letter is "${currentCorrectLetter}"`;
+                result.style.color = 'red';
+                
+                // Play error sound
+                playErrorSound();
+            }
+        }
+
+        // Highlight letter in grid
+        function highlightLetterInGrid(letter) {
+            const letterCards = document.querySelectorAll('.letter-card');
+            letterCards.forEach(card => {
+                if(card.dataset.letter === letter) {
+                    card.classList.add('clicked');
+                    setTimeout(() => card.classList.remove('clicked'), 1500);
+                }
+            });
+        }
+
+        // Show hint
+        function showHint() {
+            const wordData = letterWords[currentCorrectLetter];
+            alert(`Hint: This letter starts the word "${wordData.word}" (${wordData.example})`);
+        }
+
+        // Speech functions
+        function speakLetter(letter) {
+            if('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance(letter);
+                speech.lang = 'en-US';
+                speech.rate = 0.8;
+                speech.pitch = 1.2;
+                window.speechSynthesis.speak(speech);
+            }
+        }
+
+        function speakWord(word) {
+            if('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance(word);
+                speech.lang = 'en-US';
+                speech.rate = 0.8;
+                window.speechSynthesis.speak(speech);
+            }
+        }
+
+        function speakNumber(number) {
+            if('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance(number.toString());
+                speech.lang = 'en-US';
+                speech.rate = 0.8;
+                window.speechSynthesis.speak(speech);
+            }
+        }
+
+        // Sound effects
+        function playSuccessSound() {
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3');
+            audio.volume = 0.3;
+            audio.play();
+        }
+
+        function playErrorSound() {
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3');
+            audio.volume = 0.3;
+            audio.play();
+        }
+
+        // Initialize when page loads
+        window.onload = init;
+    </script>
+</body>
+</html>
