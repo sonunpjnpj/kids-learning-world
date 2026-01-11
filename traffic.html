@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Rules & Safety - Kids Learning World</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Traffic Page Specific Styles */
+        .traffic-page {
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(255, 87, 34, 0.2);
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Rules Sections */
+        .rules-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .rule-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #2196F3;
+        }
+
+        .rule-section:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .rule-section h2 {
+            color: #2196F3;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+        }
+
+        .rule-section h2 i {
+            font-size: 2rem;
+        }
+
+        .rule-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .rule-list li {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border-left: 4px solid #4CAF50;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .rule-list li:hover {
+            background: #e8f5e9;
+            transform: translateX(10px);
+        }
+
+        .rule-list li i {
+            color: #4CAF50;
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        /* Traffic Lights Game */
+        .traffic-game {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .traffic-game h2 {
+            color: #9C27B0;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+
+        .traffic-light-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .traffic-light {
+            width: 150px;
+            height: 400px;
+            background: #333;
+            border-radius: 30px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            position: relative;
+        }
+
+        .light {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+        }
+
+        .light.active {
+            opacity: 1;
+            box-shadow: 0 0 30px currentColor;
+        }
+
+        .red-light { background: #f44336; }
+        .yellow-light { background: #FFEB3B; }
+        .green-light { background: #4CAF50; }
+
+        .control-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .control-btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .stop-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .ready-btn {
+            background: #FF9800;
+            color: white;
+        }
+
+        .go-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Safety Tips */
+        .safety-tips {
+            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .safety-tips h2 {
+            color: #1976D2;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .tip-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(25, 118, 210, 0.2);
+        }
+
+        .tip-card i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #1976D2;
+        }
+
+        .tip-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* Road Signs */
+        .road-signs {
+            margin: 50px 0;
+        }
+
+        .road-signs h2 {
+            color: #795548;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+
+        .signs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .sign-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .sign-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .sign-card h3 {
+            color: #795548;
+            margin-bottom: 10px;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: linear-gradient(135deg, #FCE4EC 0%, #F8BBD0 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 50px 0;
+        }
+
+        .quiz-section h2 {
+            color: #C2185B;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+
+        .quiz-question {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .option-btn {
+            padding: 20px;
+            background: #E1F5FE;
+            border: 2px solid #B3E5FC;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .option-btn:hover {
+            background: #B3E5FC;
+            transform: scale(1.05);
+        }
+
+        .option-btn.correct {
+            background: #C8E6C9;
+            border-color: #4CAF50;
+            color: #2E7D32;
+        }
+
+        .option-btn.wrong {
+            background: #FFCDD2;
+            border-color: #f44336;
+            color: #c62828;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.2rem;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .rules-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .traffic-light {
+                width: 120px;
+                height: 320px;
+            }
+            
+            .light {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .control-btn {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span>🚦</span>
+                <h1>Traffic Rules & Safety</h1>
+            </div>
+            <nav>
+                <a href="index.html">🏠 Home</a>
+                <a href="alphabet.html">🔤 Alphabet</a>
+                <a href="math.html">🧮 Math</a>
+                <a href="coloring.html">🎨 Coloring</a>
+                <a href="stories.html">📚 Stories</a>
+                <a href="traffic.html" class="active">🚦 Traffic Rules</a>
+            </nav>
+        </header>
+
+        <main class="traffic-page">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>
+                    <span>🚦</span> Traffic Rules & Safety
+                    <span>🚸</span>
+                </h1>
+                <p>Learn important traffic rules, safety tips, and become a smart road user!</p>
+            </div>
+
+            <!-- Basic Rules Section -->
+            <div class="rules-container">
+                <!-- Pedestrian Rules -->
+                <div class="rule-section">
+                    <h2><span>🚶‍♂️</span> Pedestrian Rules</h2>
+                    <ul class="rule-list">
+                        <li>
+                            <span>✅</span>
+                            Always use zebra crossing to cross the road
+                        </li>
+                        <li>
+                            <span>✅</span>
+                            Look left, right, and left again before crossing
+                        </li>
+                        <li>
+                            <span>✅</span>
+                            Use footpaths for walking
+                        </li>
+                        <li>
+                            <span>✅</span>
+                            Never run while crossing roads
+                        </li>
+                        <li>
+                            <span>✅</span>
+                            Cross only when traffic light shows green man
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Vehicle Rules -->
+                <div class="rule-section">
+                    <h2><span>🚗</span> Vehicle Safety Rules</h2>
+                    <ul class="rule-list">
+                        <li>
+                            <span>🔒</span>
+                            Always wear seat belt in car
+                        </li>
+                        <li>
+                            <span>👶</span>
+                            Children should sit in back seat
+                        </li>
+                        <li>
+                            <span>🛑</span>
+                            Always stop at red light
+                        </li>
+                        <li>
+                            <span>📱</span>
+                            Never use phone while crossing
+                        </li>
+                        <li>
+                            <span>👀</span>
+                            Always look both ways before moving
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Bicycle Rules -->
+                <div class="rule-section">
+                    <h2><span>🚲</span> Bicycle Rules</h2>
+                    <ul class="rule-list">
+                        <li>
+                            <span>🪖</span>
+                            Always wear helmet while cycling
+                        </li>
+                        <li>
+                            <span>🔔</span>
+                            Use bell to alert others
+                        </li>
+                        <li>
+                            <span>👈</span>
+                            Use hand signals for turning
+                        </li>
+                        <li>
+                            <span>🌙</span>
+                            Use lights at night
+                        </li>
+                        <li>
+                            <span>🚫</span>
+                            Never cycle on footpaths
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Traffic Lights Game -->
+            <div class="traffic-game">
+                <h2>🎮 Traffic Lights Game</h2>
+                <p>Learn what each traffic light color means:</p>
+                
+                <div class="traffic-light-container">
+                    <div class="traffic-light">
+                        <div class="light red-light" id="red-light"></div>
+                        <div class="light yellow-light" id="yellow-light"></div>
+                        <div class="light green-light" id="green-light"></div>
+                    </div>
+                    
+                    <div class="game-instructions">
+                        <h3>What to do when:</h3>
+                        <div class="instructions-list">
+                            <p><strong>🔴 RED:</strong> STOP! Don't cross</p>
+                            <p><strong>🟡 YELLOW:</strong> GET READY to stop</p>
+                            <p><strong>🟢 GREEN:</strong> GO! You can cross safely</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="control-btn stop-btn" onclick="changeLight('red')">
+                        <span>🛑</span> STOP (Red Light)
+                    </button>
+                    <button class="control-btn ready-btn" onclick="changeLight('yellow')">
+                        <span>⚠️</span> READY (Yellow Light)
+                    </button>
+                    <button class="control-btn go-btn" onclick="changeLight('green')">
+                        <span>🚶‍♂️</span> GO (Green Light)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Safety Tips -->
+            <div class="safety-tips">
+                <h2>🛡️ Safety Tips for Kids</h2>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <span>👁️</span>
+                        <h3>Be Visible</h3>
+                        <p>Wear bright colored clothes during day and reflective materials at night</p>
+                    </div>
+                    <div class="tip-card">
+                        <span>👫</span>
+                        <h3>Stay Together</h3>
+                        <p>Always cross roads with an adult or in groups</p>
+                    </div>
+                    <div class="tip-card">
+                        <span>🎧</span>
+                        <h3>No Headphones</h3>
+                        <p>Never wear headphones while crossing roads</p>
+                    </div>
+                    <div class="tip-card">
+                        <span>🏃‍♂️</span>
+                        <h3>Don't Run</h3>
+                        <p>Walk, don't run while crossing roads</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Road Signs -->
+            <div class="road-signs">
+                <h2>🛑 Important Road Signs</h2>
+                <div class="signs-grid">
+                    <div class="sign-card">
+                        <div class="sign-icon">🛑</div>
+                        <h3>STOP Sign</h3>
+                        <p>Complete stop required</p>
+                    </div>
+                    <div class="sign-card">
+                        <div class="sign-icon">🚸</div>
+                        <h3>School Ahead</h3>
+                        <p>Drive slowly, children crossing</p>
+                    </div>
+                    <div class="sign-card">
+                        <div class="sign-icon">🚶‍♂️</div>
+                        <h3>Pedestrian Crossing</h3>
+                        <p>People crossing road here</p>
+                    </div>
+                    <div class="sign-card">
+                        <div class="sign-icon">🚫</div>
+                        <h3>No Entry</h3>
+                        <p>Do not enter this road</p>
+                    </div>
+                    <div class="sign-card">
+                        <div class="sign-icon">⚠️</div>
+                        <h3>Danger Ahead</h3>
+                        <p>Be careful, danger nearby</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div class="quiz-section">
+                <h2>❓ Traffic Safety Quiz</h2>
+                
+                <div class="quiz-question">
+                    <h3>Question 1: What should you do at a RED traffic light?</h3>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(this, 'correct')">Stop and wait</button>
+                        <button class="option-btn" onclick="checkAnswer(this, 'wrong')">Run fast</button>
+                        <button class="option-btn" onclick="checkAnswer(this, 'wrong')">Look at phone</button>
+                        <button class="option-btn" onclick="checkAnswer(this, 'wrong')">Play games</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3>Question 2: Where should you cross the road?</h3>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(this, 'wrong')">Anywhere I want</button>
+                        <button class="option-btn" onclick="checkAnswer(this, 'correct')">Zebra crossing</button>
+                        <button class="option-btn" onclick="checkAnswer(this, 'wrong')">Between parked cars</button>
+                        <button class="option-btn" onclick="checkAnswer(this, 'wrong')">On curves</button>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3>Question 3: What should cyclists always wear?</h3>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="checkAnswer(this, 'wrong')">Sunglasses</button>
+                        <button class="option-btn" onclick="checkAnswer(this, 'correct')">Helmet</button>
+                        <button class="option-btn" onclick="checkAnswer(this, 'wrong')">Watch</button>
+                        <button class="option-btn" onclick="checkAnswer(this, 'wrong')">Backpack</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2023 Kids Learning World | Stay Safe on Roads! 🚦</p>
+            <p>Remember: Safety First, Always!</p>
+        </footer>
+    </div>
+
+    <script>
+        // Traffic Lights Game
+        function changeLight(color) {
+            // Reset all lights
+            document.getElementById('red-light').classList.remove('active');
+            document.getElementById('yellow-light').classList.remove('active');
+            document.getElementById('green-light').classList.remove('active');
+            
+            // Activate selected light
+            document.getElementById(color + '-light').classList.add('active');
+            
+            // Play sound
+            playTrafficSound(color);
+        }
+
+        function playTrafficSound(color) {
+            const sounds = {
+                'red': 'https://assets.mixkit.co/sfx/preview/mixkit-car-brake-screech-1072.mp3',
+                'yellow': 'https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-1006.mp3',
+                'green': 'https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3'
+            };
+            
+            const audio = new Audio(sounds[color]);
+            audio.volume = 0.3;
+            audio.play().catch(e => console.log("Audio play failed"));
+        }
+
+        // Quiz Functionality
+        function checkAnswer(button, result) {
+            // Reset all buttons in this question
+            const options = button.parentElement.querySelectorAll('.option-btn');
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'wrong');
+                opt.disabled = true;
+            });
+            
+            // Show result
+            if (result === 'correct') {
+                button.classList.add('correct');
+                playSuccessSound();
+            } else {
+                button.classList.add('wrong');
+                playErrorSound();
+                
+                // Show correct answer
+                const correctBtn = button.parentElement.querySelector('.option-btn');
+                correctBtn.classList.add('correct');
+            }
+        }
+
+        function playSuccessSound() {
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3');
+            audio.volume = 0.3;
+            audio.play();
+        }
+
+        function playErrorSound() {
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3');
+            audio.volume = 0.3;
+            audio.play();
+        }
+
+        // Initialize red light as active
+        window.onload = function() {
+            changeLight('red');
+        }
+    </script>
+</body>
+</html>
